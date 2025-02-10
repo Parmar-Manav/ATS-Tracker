@@ -118,9 +118,11 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
   }
 
   const inputClasses =
+
     `mt-1 block w-full rounded-lg border-gray-300 bg-white px-4 py-2.5 text-gray-900 shadow-sm ${
     readOnly ? "bg-gray-100 cursor-not-allowed" : "focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
   } sm:text-sm`;
+
   const labelClasses = "block text-sm font-medium text-gray-900"
   const iconClasses = "w-5 h-5 text-gray-400"
 
@@ -363,8 +365,10 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
           className="px-6 py-2.5 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 transition-all duration-200 transform hover:scale-[1.02]"
         >
           {initialData ? "Update Client" : "Create Client"}
+
         </button>)}
         
+
       </div>
     </form>
   )

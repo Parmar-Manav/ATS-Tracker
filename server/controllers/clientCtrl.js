@@ -1,30 +1,10 @@
-import { Client } from "../models/index.js";
+import { Client } from "../models/Client.js";
+import asyncHandler from "express-async-handler";
 
-// export const createClient = async (req, res) => {
-//   try {
-//     const client = await Client.create(req.body);
-//     res.status(201).json(client);
-//   } catch (error) {
-//     res.status(400).json({ error: error.message });
-//   }
-// };
-// export const createClients = async (req, res) => {
-//   try {
-//     const clients = req.body; // Ensure this is an array
-//     if (!Array.isArray(clients)) {
-//       return res.status(400).json({ error: "Invalid data format. Expected an array." });
-//     }
-
-//     // Use bulkCreate instead of looping over build().save()
-//     const newClients = await Client.bulkCreate(clients, { validate: true });
-
-//     return res.status(201).json(newClients);
-//   } catch (error) {
-//     console.error("Bulk insert error:", error);
-//     return res.status(500).json({ error: "Failed to upload clients" });
-//   }
-// };
-export const createClients = async (req, res, next) => {
+//@desc  Add a new Client
+//@route POST /Clients
+//@access Public
+export const createClients = asyncHandler(async (req, res, next) => {
   var Clients = req.body;
   if (!Clients || (Array.isArray(Clients) && Clients.length === 0)) {
     res.status(400);
@@ -48,45 +28,72 @@ export const createClients = async (req, res, next) => {
   res
     .status(200)
     .json({ message: "Client(s) added successfully.", createdClients });
-};
+});
 
-export const getClients = async (req, res) => {
-  try {
-    const clients = await Client.findAll();
-    res.json(clients);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
+//@desc Fetch all clients
+//@route GET /Clients
+//@access Public
+export const getClients = asyncHandler(async (req, res, next) => {
+  const clients = await Client.findAll({
+    // where: {
+    //   user_id: req.user.user.id,
+    // },
+  });
+  res.status(200).json(clients);
+});
 
-export const getClientById = async (req, res) => {
-  try {
-    const client = await Client.findByPk(req.params.id);
-    if (!client) return res.status(404).json({ error: "Client not found" });
-    res.json(client);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+//@desc Fetch a single client
+//@route GET /Clients/:id
+//@access Public
+export const getClientById = asyncHandler(async (req, res, next) => {
+  const client = await Client.findByPk(req.params.id);
+  if (!client) {
+    res.status(404);
+    throw new Error("Client not found");
   }
-};
+  // if (client.user_id.toString() !== req.user.user.id) {
+  //   res.status(403);
+  //   throw new Error(
+  //     "User does not have permission to read other User's Clients."
+  //   );
+  // }
+  res.status(200).json(client);
+});
 
-export const updateClient = async (req, res) => {
-  try {
-    const client = await Client.findByPk(req.params.id);
-    if (!client) return res.status(404).json({ error: "Client not found" });
-    await client.update(req.body);
-    res.json(client);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
+//@desc Update a client
+//@route PATCH /Clients/:id
+//@access Public
+export const updateClient = asyncHandler(async (req, res, next) => {
+  const client = await Client.findByPk(req.params.id);
+  if (!client) {
+    res.status(404);
+    throw new Error("Client not found");
   }
-};
+  // if (client.user_id.toString() !== req.user.user.id) {
+  //   res.status(403);
+  //   throw new Error(
+  //     "User does not have permission to update other User's Clients."
+  //   );
+  // }
+  await client.update(req.body);
+  res.status(200).json({ message: "Client Updated Successfully..", client });
+});
 
-export const deleteClient = async (req, res) => {
-  try {
-    const client = await Client.findByPk(req.params.id);
-    if (!client) return res.status(404).json({ error: "Client not found" });
-    await client.destroy();
-    res.json({ message: "Client deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+//@desc Delete a client
+//@route DELETE /Clients/:id
+//@access Public
+export const deleteClient = asyncHandler(async (req, res, next) => {
+  const client = await Client.findByPk(req.params.id);
+  if (!client) {
+    res.status(404);
+    throw new Error("Client not found");
   }
-};
+  // if (client.user_id.toString() !== req.user.user.id) {
+  //   res.status(403);
+  //   throw new Error(
+  //     "User does not have permission to delete other User's Clients."
+  //   );
+  // }
+  await client.destroy();
+  res.status(200).json({ message: "Client deleted successfully", client });
+});

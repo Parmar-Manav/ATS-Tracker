@@ -15,7 +15,7 @@ interface ComplianceField {
   value: boolean | number | string
 }
 
-export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm) {
+export function ClientForm({ initialData, onCancel, refreshClients, readOnly = false }: ClientForm & { readOnly?: boolean }) {
   const [formData, setFormData] = React.useState<Partial<Client>>(
     initialData || {
       client_name: "",
@@ -118,7 +118,11 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
   }
 
   const inputClasses =
-    "mt-1 block w-full rounded-lg border-gray-300 bg-white px-4 py-2.5 text-gray-900 shadow-sm transition-colors duration-200 ease-in-out focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm"
+
+    `mt-1 block w-full rounded-lg border-gray-300 bg-white px-4 py-2.5 text-gray-900 shadow-sm ${
+    readOnly ? "bg-gray-100 cursor-not-allowed" : "focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500"
+  } sm:text-sm`;
+
   const labelClasses = "block text-sm font-medium text-gray-900"
   const iconClasses = "w-5 h-5 text-gray-400"
 
@@ -151,6 +155,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.client_name}
               onChange={(e) => setFormData({ ...formData, client_name: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., TechCorp Inc."
             />
           </div>
@@ -169,6 +174,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.industry}
               onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., Technology"
             />
           </div>
@@ -187,6 +193,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., San Francisco, CA"
             />
           </div>
@@ -207,6 +214,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.contact_person}
               onChange={(e) => setFormData({ ...formData, contact_person: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., John Doe"
             />
           </div>
@@ -225,6 +233,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.contact_email}
               onChange={(e) => setFormData({ ...formData, contact_email: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., john.doe@techcorp.com"
             />
           </div>
@@ -243,6 +252,7 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
               value={formData.contact_phone}
               onChange={(e) => setFormData({ ...formData, contact_phone: e.target.value })}
               className={inputClasses}
+              disabled={readOnly}
               placeholder="e.g., +1-555-1234"
             />
           </div>
@@ -349,13 +359,16 @@ export function ClientForm({ initialData, onCancel, refreshClients }: ClientForm
         >
           Cancel
         </button>
-        <button
+        {!readOnly && (<button
           onClick={handleSubmit}
           type="submit"
           className="px-6 py-2.5 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-lg shadow-sm hover:bg-indigo-700 transition-all duration-200 transform hover:scale-[1.02]"
         >
           {initialData ? "Update Client" : "Create Client"}
-        </button>
+
+        </button>)}
+        
+
       </div>
     </form>
   )

@@ -7,12 +7,10 @@ import {
   deleteClient,
 } from "../controllers/clientCtrl.js";
 
-const router = express.Router();
+export const clientRouter = express.Router();
 
-router.post("/", createClients);
-router.get("/", getClients);
-router.get("/:id", getClientById);
-router.put("/:id", updateClient);
-router.delete("/:id", deleteClient);
-
-export default router;
+clientRouter.post("/", createClients);
+clientRouter.get("/", getClients);
+clientRouter.get("/:id", getClientById);
+clientRouter.patch("/:id", updateClient);
+clientRouter.delete("/:id", deleteClient);

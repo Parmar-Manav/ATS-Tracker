@@ -3,7 +3,7 @@ export interface ComplianceSettings {
 }
 
 export interface Client {
-  id: string;
+  id?: number;
   client_name: string;
   industry: string;
   location: string;

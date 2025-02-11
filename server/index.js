@@ -3,8 +3,9 @@ import bodyparser from "body-parser";
 import dotenv from "dotenv";
 import { dbConnect, dbSync } from "./config/dbConfig.js";
 import { SetupAssociations } from "./config/Association.js";
-import { Routers } from "./routes/index.js";
+import  Routers  from "./routes/index.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+
 import cors from "cors";
 dotenv.config();
 const app = express();

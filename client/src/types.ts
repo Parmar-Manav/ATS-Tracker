@@ -3,7 +3,7 @@ export interface ComplianceSettings {
 }
 
 export interface Client {
-  id?: number;
+  id?: string;
   client_name: string;
   industry: string;
   location: string;
@@ -12,15 +12,16 @@ export interface Client {
   contact_phone: string;
   compliance_settings: ComplianceSettings;
   createdAt: string;
-  status: string;
+  status: "active" | "inactive";
 }
 
 export interface ClientExecutive {
-  id: string;
-  clientId: string;
-  name: string;
-  position: string;
-  email: string;
-  phone: string;
-  department: string;
+  // id: string;
+  // clientId: string;
+  // name: string;
+  // position: string;
+  // email: string;
+  // phone: string;
+  // department: string;
+  [key: string]: boolean | number | string
 }

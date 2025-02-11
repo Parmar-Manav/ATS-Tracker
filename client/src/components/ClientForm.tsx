@@ -265,14 +265,16 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
             <Shield className="w-5 h-5 text-indigo-600" />
             <h3 className="text-lg font-semibold text-gray-900">Compliance Settings</h3>
           </div>
-          <button
-            type="button"
-            onClick={addComplianceField}
-            className="inline-flex items-center px-4 py-2 border border-indigo-600 text-sm font-medium rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors duration-200"
-          >
-            <Plus className="w-4 h-4 mr-2" />
-            Add Requirement
-          </button>
+          {!readOnly && (
+            <button
+              type="button"
+              onClick={addComplianceField}
+              className="inline-flex items-center px-4 py-2 border border-indigo-600 text-sm font-medium rounded-lg text-indigo-600 hover:bg-indigo-50 transition-colors duration-200"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Requirement
+            </button>
+          )}
         </div>
 
         <div className="space-y-4">
@@ -288,6 +290,7 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
                   onChange={(e) => updateComplianceField(index, { key: e.target.value })}
                   placeholder="Requirement name"
                   className={inputClasses}
+                  disabled={readOnly}
                 />
                 <div className="flex items-center space-x-4">
                   <select
@@ -296,6 +299,7 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
                       updateComplianceField(index, { type: e.target.value as "boolean" | "number" | "text" })
                     }
                     className="rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm"
+                    disabled={readOnly}
                   >
                     <option value="boolean">Yes/No</option>
                     <option value="number">Number</option>
@@ -309,6 +313,7 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
                         checked={field.value as boolean}
                         onChange={(e) => updateComplianceField(index, { value: e.target.checked })}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded transition-colors duration-200"
+                        disabled={readOnly}
                       />
                       <span className="text-sm text-gray-700">Required</span>
                     </label>
@@ -319,6 +324,7 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
                       value={field.value as number}
                       onChange={(e) => updateComplianceField(index, { value: Number(e.target.value) })}
                       className="block w-32 rounded-lg border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 sm:text-sm"
+                      disabled={readOnly}
                     />
                   )}
                   {field.type === "text" && (
@@ -327,17 +333,20 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
                       value={field.value as string}
                       onChange={(e) => updateComplianceField(index, { value: e.target.value })}
                       className={inputClasses}
+                      disabled={readOnly}
                     />
                   )}
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => removeComplianceField(index)}
-                className="text-gray-400 hover:text-red-500 transition-colors duration-200"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              {!readOnly && (
+                <button
+                  type="button"
+                  onClick={() => removeComplianceField(index)}
+                  className="text-gray-400 hover:text-red-500 transition-colors duration-200"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              )}
             </div>
           ))}
 
@@ -345,7 +354,7 @@ export function ClientForm({ initialData, onCancel, refreshClients, readOnly = f
             <div className="text-center py-8 text-gray-500">
               <Shield className="w-12 h-12 mx-auto mb-3 text-gray-400" />
               <p>No compliance requirements added yet.</p>
-              <p className="text-sm">Click "Add Requirement" to get started.</p>
+              {!readOnly && <p className="text-sm">Click "Add Requirement" to get started.</p>}
             </div>
           )}
         </div>

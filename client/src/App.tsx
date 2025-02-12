@@ -26,7 +26,7 @@ function App() {
       if (!Array.isArray(data)) {
         throw new Error("API response is not an array")
       }
-      setClients(data)
+      applyFilters(data)
       setError(null)
     } catch (error) {
       console.error("Error fetching clients:", error)
@@ -44,7 +44,7 @@ function App() {
       const data = await response.json();
       // if (!Array.isArray(data)) throw new Error("API response is not an array");
       // console.log(data)
-      setClients(data);
+      applyFilters(data)
       setError(null);
     } catch (error) {
       console.error("Error searching clients:", error);
@@ -52,6 +52,14 @@ function App() {
       setClients([]);
     }
   };
+
+  const applyFilters = (data: Client[]) => {
+    let filteredClients = data;
+    if (filterStatus !== "all") {
+      filteredClients = filteredClients.filter(client => client.status === filterStatus);
+    }
+    setClients(filteredClients);
+  }
 
   React.useEffect(() => {
     if (searchQuery.trim()) {

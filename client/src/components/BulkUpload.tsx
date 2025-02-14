@@ -44,7 +44,7 @@ export function BulkUpload({ onUpload, onCancel }: BulkUploadProps) {
           contact_phone: values[headers.indexOf("contact_phone")],
           industry: values[headers.indexOf("industry")],
           location: values[headers.indexOf("location")],
-          // status: values[headers.indexOf("status")] as "active" | "inactive",
+          status: values[headers.indexOf("status")] as "active" | "inactive",
           compliance_settings: {}, // Initialize with empty object
         }
         return client

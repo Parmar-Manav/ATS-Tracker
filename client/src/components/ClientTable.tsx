@@ -67,7 +67,7 @@ export function ClientTable({
             <div className="mt-auto flex justify-between items-center">
               <span
                 className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                  client.status === "active" ? "bg-green-100 text-green-800" : "bg-red-100 text-red-800"
+                  client.status === "inactive" ? "bg-red-100 text-red-800" : "bg-green-100 text-green-800" 
                 }`}
               >
                 {client.status}
